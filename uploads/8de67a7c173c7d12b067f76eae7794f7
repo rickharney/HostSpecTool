@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: Pick Order Assortment Update API
+  version: 1.0.0
+  description: >
+    Updates the original pick order with the assortment SKU and quantity
+    assembled.
+
+paths:
+  /pick-order-assortment-update:
+    post:
+      summary: Pick Order Assortment Update
+      operationId: pickOrderAssortmentUpdate
+      description: >
+        A Pick Order Assortment Update message updates the original pick
+        order with the assortment SKU and assembled quantity.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PickOrderAssortmentUpdate'
+            examples:
+              sample:
+                value:
+                  pickOrderAssortmentUpdate:
+                    messageId: "2d177c24-e792-4622-9bb3-8e81db8043ad"
+                    messageTimestamp: "2026-07-31T14:30:15"
+                    pickOrderId: "987967"
+                    skuId: "A2596424"
+                    quantity: 100
+
+      responses:
+        '200':
+          description: Message processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgementResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    details: null
+        '400':
+          description: Message failed 400
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgementResponse'
+              examples:
+                success:
+                  value:
+                    success: false
+                    details: "Message rejected because of formatting issue"
+                    
+components:
+  schemas:
+
+    PickOrderAssortmentUpdate:
+      type: object
+      required:
+        - pickOrderAssortmentUpdate
+      properties:
+        pickOrderAssortmentUpdate:
+          type: object
+          required:
+            - messageId
+            - messageTimestamp
+            - pickOrderId
+            - skuId
+            - quantity
+          properties:
+            messageId:
+              type: string
+              format: uuid
+              description: UUID identifying the message
+              maxLength: 36
+
+            messageTimestamp:
+              type: string
+              format: date-time
+              description: Timestamp when the message was created
+
+            pickOrderId:
+              type: string
+              maxLength: 20
+              description: Unique identifier for this Pick Order
+
+            skuId:
+              type: string
+              maxLength: 20
+              description: Unique Item Id
+
+            quantity:
+              type: integer
+              minimum: 0
+              description: Number of items assembled
+
+    AcknowledgementResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: Indicates whether the message was processed successfully
+
+        details:
+          type:
+            - string
+            - 'null'
+          description: Additional details about the processing result
