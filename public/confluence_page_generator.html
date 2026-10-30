@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TGW · Confluence Page Creator</title><style>
+:root{font-family:"Segoe UI",Arial,sans-serif;background:#eef1f3;color:#1d2830}*{box-sizing:border-box}body{margin:0} .wrap{max-width:1460px;margin:0 auto} h1{margin:0} p{line-height:1.6} .layout{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.panel{background:white;border:1px solid #dfe5e7;border-radius:13px;padding:26px;min-width:0}h2{font-size:18px;margin:0 0 14px;padding-bottom:13px;border-bottom:1px solid #e8edee}label{display:block;font-weight:650;margin:12px 0 7px;font-size:13px}textarea,input{font:inherit;border:1px solid #cbd5d8;border-radius:8px;padding:11px;width:100%;background:#fbfcfc;color:#1d2a2e}textarea{resize:vertical;font:13px/1.5 Consolas,monospace;min-height:430px}button{border:0;border-radius:8px;padding:11px 14px;background:#b7d333;color:#1c2a1c;font-weight:700;cursor:pointer}button.secondary{background:#edf1f2;color:#26373b}button:disabled{opacity:.5;cursor:not-allowed}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.status,.hint{font-size:12px;color:#64748b;line-height:1.6;margin-top:12px}.preview{min-height:430px;max-height:700px;overflow:auto;border:1px solid #dfe5e7;border-radius:8px;background:white;padding:20px;line-height:1.6;overflow-wrap:anywhere}.preview h1{font-size:25px}.preview h2{font-size:20px;margin:20px 0 8px}.preview h3{font-size:16px;margin:16px 0 6px}.preview table{border-collapse:collapse;width:100%;margin:14px 0}.preview td,.preview th{border:1px solid #bfcbd0;padding:8px;text-align:left;vertical-align:top}.preview th{background:#edf2f4}.preview pre{white-space:pre-wrap;background:#f2f4f5;border:1px solid #dce3e6;border-radius:6px;padding:12px;font:12px/1.5 Consolas,monospace}.preview p{margin:9px 0}.preview ul,.preview ol{padding-left:25px}.preview .placeholder{color:#7d8a8d}.pill{display:inline-block;background:rgba(191,217,49,.15);border:1px solid rgba(197,222,59,.35);color:#d6ec71;border-radius:20px;padding:5px 10px;font-size:12px;font-weight:650} @media(max-width:950px){.layout{grid-template-columns:1fr}textarea,.preview{min-height:280px}}
+/* Shared left navigation */
+body { display:block !important; min-height:100vh; margin:0; }
+.app-sidebar { position:fixed; inset:0 auto 0 0; width:246px; z-index:50; background:#14263f; color:#fff; display:flex; flex-direction:column; box-shadow:2px 0 12px rgba(0,0,0,.08); font-family:"Segoe UI",Arial,sans-serif; }
+.app-brand { padding:28px 20px 24px; border-bottom:1px solid rgba(255,255,255,.14); display:flex; flex-direction:column; gap:5px; font-size:18px; }
+.app-brand-small { color:#8fc8ff; font-size:12px; font-weight:700; letter-spacing:.13em; }
+.app-links { padding:18px 10px; display:flex; flex-direction:column; gap:7px; }
+.app-links a { display:block; color:#e0e9f5; text-decoration:none; padding:13px 14px; border-radius:8px; font-size:14px; line-height:1.45; font-weight:600; }
+.app-links a:hover, .app-links a:focus-visible { background:#2d4563; color:white; text-decoration:none; }
+.app-links a[aria-current="page"] { background:#0078d4; color:#fff; }
+.app-sidebar-foot { margin-top:auto; padding:16px 22px; font-size:12px; color:#a4b7cc; }
+.app-main { margin-left:246px; min-height:100vh; padding:28px 22px; }
+.app-main .wrap { margin:0 auto; }
+.app-main .container { margin:24px auto; max-width:700px; width:100%; }
+@media (max-width:700px) { .app-sidebar {position:relative; width:100%; box-shadow:none;} .app-brand {padding:16px;} .app-links {flex-direction:row; flex-wrap:wrap; padding:10px;} .app-links a {font-size:13px;} .app-sidebar-foot {display:none;} .app-main {margin-left:0; padding:14px;} .app-main .container {padding:24px;} }
+
+/* TGW industrial interface — visual-only V9 theme */
+:root{font-family:"Segoe UI",Arial,sans-serif!important;background:#eef1f3!important;color:#1d2830!important}
+body{background:#eef1f3!important;color:#1d2830!important}
+.app-sidebar{width:266px!important;background:#171b1e!important;box-shadow:4px 0 25px rgba(20,25,29,.10)!important;border-right:1px solid #30373b}
+.app-brand{padding:26px 22px 24px!important;gap:12px!important;border-color:#32383b!important}
+.brand-logo-wrap{background:#fff;border-radius:9px;padding:10px 12px;display:flex;align-items:center;justify-content:center}
+.brand-logo{width:100%;max-width:190px;height:auto;display:block}
+.brand-caption{color:#b4c0c4;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:none;text-align:center;letter-spacing:.02em}
+.app-links{padding:24px 12px!important;gap:8px!important}
+.app-links a{display:flex!important;align-items:center;gap:12px;border:1px solid transparent;border-radius:9px!important;color:#c5d0d4!important;padding:14px 12px!important;font-size:13px!important;font-weight:600!important}
+.app-links a:before{content:'◇';font-size:21px;color:#9cabaf;line-height:1}
+.app-links a.docs-link:before{content:'▤';font-size:19px}
+.app-links a:hover{background:#30383b!important;color:white!important}
+.app-links a[aria-current="page"]{background:#343c39!important;border-color:#55652c!important;color:#f5f8e9!important;box-shadow:inset 3px 0 #b7d329}
+.app-links a[aria-current="page"]:before{color:#c5df3e}
+.app-sidebar-foot{border-top:1px solid #343b3e;color:#aab7bb!important;padding:22px!important}
+.app-main{margin-left:266px!important;padding:0 32px 45px!important;min-width:0;background:linear-gradient(180deg,#e7ebee 0,#f3f5f6 310px)!important}
+.app-main:before{content:'';display:block;height:9px;margin:0 -32px 30px;background:linear-gradient(90deg,#a9cf25 0%,#d1db26 35%,#f9b51a 72%,#eb282b 100%)}
+.app-main .wrap{max-width:1460px!important}
+.app-main header{position:relative;overflow:hidden;border-radius:14px;padding:30px 34px!important;margin-bottom:23px!important;background:linear-gradient(105deg,rgba(22,30,34,.98),rgba(35,49,53,.92)),repeating-linear-gradient(90deg,transparent 0,transparent 45px,rgba(255,255,255,.1) 46px,transparent 47px)!important;box-shadow:0 9px 24px rgba(29,41,46,.10)}
+.app-main header:after{content:'';position:absolute;right:-25px;top:-30px;width:240px;height:180px;border:2px solid rgba(184,211,42,.2);transform:skew(-24deg);box-shadow:-40px 30px 0 -2px rgba(184,211,42,.06),-80px 60px 0 -2px rgba(184,211,42,.05);pointer-events:none}
+.app-main header h1{color:#fff!important;font-size:clamp(25px,2.5vw,35px)!important;letter-spacing:-.025em;margin:12px 0 9px!important}
+.app-main header p{color:#c4cfd1!important;max-width:780px;line-height:1.65!important;margin:0}
+.pill{background:rgba(191,217,49,.15)!important;border:1px solid rgba(197,222,59,.35);color:#d6ec71!important;letter-spacing:.045em}
+.layout{gap:22px!important;align-items:start}
+.panel,.container{background:#fff!important;border:1px solid #dfe5e7!important;border-radius:13px!important;box-shadow:0 5px 22px rgba(28,40,44,.055)!important}
+.panel{padding:26px!important}
+.panel h2{color:#202b30!important;font-size:18px!important;letter-spacing:-.01em;padding-bottom:13px;border-bottom:1px solid #e8edee}
+label{color:#3e4c52!important}
+textarea,input,select{background:#fbfcfc!important;border:1px solid #cbd5d8!important;border-radius:8px!important;color:#1d2a2e!important;outline-color:#a5c72b!important}
+textarea:focus,input:focus,select:focus{border-color:#8da928!important;box-shadow:0 0 0 3px rgba(178,205,45,.16)!important}
+button{background:#b7d333!important;color:#1c2a1c!important;border-radius:8px!important;box-shadow:none!important;font-weight:700!important}
+button:hover:not(:disabled){background:#a7c425!important}
+button.secondary{background:#edf1f2!important;color:#26373b!important}
+button.secondary:hover:not(:disabled){background:#e0e8e8!important}
+button:focus-visible,a:focus-visible{outline:3px solid #d7e77d;outline-offset:3px}
+#analysis{background:#f3f6f5!important;border:1px solid #e2e9e5!important;color:#3a484b}
+.hint,.status{line-height:1.6!important}
+.container{max-width:850px!important;width:100%!important;margin:0 auto!important;padding:38px!important}
+.container h1{color:#202b30!important;font-size:28px!important}
+.container .subtitle{color:#647378!important;line-height:1.6!important}
+.upload-box{background:#f7f9f6!important;border:2px dashed #9fb739!important;border-radius:12px!important}
+.container button{padding:13px 20px!important}
+.footer{color:#7e8b8d!important}
+@media(max-width:1000px){.app-main{padding:0 18px 30px!important}.app-main:before{margin:0 -18px 20px}.panel{padding:19px!important}}
+@media(max-width:700px){.app-sidebar{position:relative!important;width:100%!important}.app-brand{padding:14px 18px!important;flex-direction:row!important;align-items:center}.brand-logo-wrap{width:120px;padding:5px 8px}.brand-caption{font-size:10px}.app-links{padding:8px 12px 14px!important;flex-direction:row!important}.app-links a{flex:1;min-width:135px;padding:10px!important}.app-sidebar-foot{display:none}.app-main{margin-left:0!important}.app-main header{padding:24px!important}.container{padding:23px!important}}
+
+
+/* V10 shared vertical rhythm: consistent top alignment on both tools */
+.app-main { display:block !important; }
+.app-main > header, .app-main > .wrap { margin-top:0 !important; }
+.app-main > .container { margin:0 !important; max-width:1460px !important; width:100% !important; }
+.app-main > header { margin-top:0 !important; margin-bottom:23px !important; }
+.app-main .wrap { width:100% !important; }
+@media (max-width:700px) { .app-main > .container { margin:0 !important; } }
+
+/* V11: one shared top-aligned content grid for both tools */
+.app-main { display:block !important; }
+.app-main > .wrap { width:100% !important; max-width:1460px !important; margin:0 auto !important; padding:0 !important; }
+.app-main .wrap > header { margin:0 0 23px !important; }
+.app-main .wrap > .container { width:100% !important; max-width:850px !important; margin:0 !important; }
+@media(max-width:700px){.app-main > .wrap {margin:0 auto !important;padding:0 !important;}}
+
+/* V14 generator-specific layout and branding */
+.brand-caption{text-transform:none!important;text-align:center!important;letter-spacing:.02em!important;display:block;width:100%;font-size:18px!important;line-height:1.4!important;font-weight:700!important}
+.app-main .wrap{width:100%!important;max-width:1460px!important;margin:0 auto!important;padding:0!important}
+.app-main .wrap>header{margin:0 0 23px!important}
+.app-main header{background:linear-gradient(105deg,#161e22,#233135)!important;color:white;padding:30px 34px!important;border-radius:14px}
+.app-main header h1{color:white!important;margin:12px 0 9px!important}
+.app-main header p{color:#c4cfd1!important;margin:0}
+.app-links a[href="confluence_page_generator.html"]{background:#343c39!important;border-color:#55652c!important;color:#f5f8e9!important;box-shadow:inset 3px 0 #b7d329}
+@media(max-width:700px){.app-brand{flex-direction:column!important}.brand-caption{text-align:center!important}}
+</style></head><body><aside aria-label="Main navigation" class="app-sidebar"><div class="app-brand"><div class="brand-logo-wrap"><img class="brand-logo" src="tgw-logo.png" alt="TGW Logistics"></div><span class="brand-caption">It's possible!</span></div><nav class="app-links" aria-label="Tools"><a href="confluence_page_generator.html" aria-current="page">Confluence Page Creator</a><a href="openapi_agent_v4.html">Confluence to OpenAPI</a><a href="documentation_generator.html">Documentation Generator</a></nav><div class="app-sidebar-foot">TGW Host Spec Tools · V20<br>OpenAPI 3.1 / Redocly</div></aside><div class="app-main"><main class="wrap"><header><span class="pill">Browser-only • Confluence Wiki Markup</span><h1>Confluence Page Creator</h1><p>Paste raw notes, field mappings, JSON, or tabular data. Generate Confluence Wiki Markup for Insert → Markup in your Confluence editor.</p></header><div class="layout"><section class="panel"><h2>1. Enter page information</h2><label for="pageTitle">Page Title</label><input id="pageTitle" placeholder="Enter the Confluence page title"><label for="raw">Page Content</label><textarea id="raw" spellcheck="false" placeholder="Paste headings, notes, field mappings, CSV/TSV tables, JSON, or numbered instructions here..."></textarea><div class="actions"><button id="generate">Generate Page</button><button class="secondary" id="clear">Clear</button></div><p class="hint">Automatic detection: headings, paragraphs, bullets, numbered steps, JSON/XML code, and CSV, tab- or pipe-delimited tables. Ambiguous data may need review.</p></section><section class="panel"><h2>2. Formatted Preview</h2><div id="preview" class="preview"><p class="placeholder">Your formatted Confluence page will appear here.</p></div><div class="actions"><button class="secondary" id="copyTitle" disabled>Copy Page Title</button><button id="copy" disabled>Copy Confluence Markup</button><button class="secondary" id="viewMarkup" disabled>View Markup</button></div><p class="status" id="status" role="status">Generate a page to enable copying.</p><p class="hint">In Confluence choose Insert → Markup → Confluence Wiki, paste the copied text, then click Insert. Use Copy Page Title for the Confluence title field; only the page body is included in Wiki Markup.</p><div id="markupPanel" hidden><label for="wikiOutput">Generated Confluence Wiki Markup</label><textarea id="wikiOutput" readonly spellcheck="false" style="min-height:280px" aria-label="Generated Confluence Wiki Markup"></textarea></div></section></div></main></div><script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+function inline(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+function splitDelimited(line,delimiter){if(delimiter==='\t')return line.split('\t').map(x=>x.trim());if(delimiter==='|')return line.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(x=>x.trim());const out=[];let cell='',quoted=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(quoted&&line[i+1]==='"'){cell+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){out.push(cell.trim());cell=''}else cell+=c}out.push(cell.trim());return out}
+function delimiterFor(lines,i){const a=lines[i]||'',b=lines[i+1]||'';for(const d of ['\t','|',',']){if(!a.includes(d)||!b.includes(d))continue;const aa=splitDelimited(a,d),bb=splitDelimited(b,d);if(aa.length>=2&&aa.length===bb.length&&aa.every(x=>x.length>0)&&bb.some(x=>x.length>0))return d}return null}
+function isSeparator(row){return row.every(x=>/^:?-{2,}:?$/.test(x.trim()))}
+function codeStart(s){return /^```/.test(s)||/^~~~/.test(s)}
+function looksJSON(s){return /^[\[{]/.test(s.trim())}
+function looksXML(s){return /^<\?xml\b|^<[A-Za-z][\w:.-]*(?:\s|>)/.test(s.trim())}
+function build(title,raw){const lines=raw.replace(/\r\n?/g,'\n').split('\n');const parts=[];let i=0;const special=s=>!s.trim()||codeStart(s.trim())||/^#{1,6}\s/.test(s)||/^\d+(?:\.\d+)*[.)]\s+/.test(s)||/^[-*•]\s+/.test(s)||delimiterFor(lines,lines.indexOf(s))!==null;
+while(i<lines.length){let s=lines[i].trim();if(!s){i++;continue}
+if(codeStart(s)){const fence=s.slice(0,3);i++;const code=[];while(i<lines.length&&!lines[i].trim().startsWith(fence))code.push(lines[i++]);if(i<lines.length)i++;parts.push('<pre><code>'+esc(code.join('\n'))+'</code></pre>');continue}
+if(looksJSON(s)||looksXML(s)){let text=s,depth=0,quoted=false,escape=false;const isJson=looksJSON(s);if(isJson){let complete=false;let j=i;for(;j<lines.length;j++){const line=lines[j];if(j>i)text+='\n'+line;for(const c of line){if(quoted){if(escape)escape=false;else if(c==='\\')escape=true;else if(c==='"')quoted=false}else if(c==='"')quoted=true;else if(c==='{'||c==='[')depth++;else if(c==='}'||c===']')depth--}if(depth===0){complete=true;break}}if(complete){try{JSON.parse(text);parts.push('<pre><code>'+esc(JSON.stringify(JSON.parse(text),null,2))+'</code></pre>');i=j+1;continue}catch(e){}}}else{const xml=[];while(i<lines.length&&lines[i].trim()){xml.push(lines[i++])}parts.push('<pre><code>'+esc(xml.join('\n'))+'</code></pre>');continue}}
+if(/^#{1,6}\s+/.test(s)){const n=Math.min(3,s.match(/^#+/)[0].length+1);parts.push('<h'+n+'>'+inline(s.replace(/^#+\s+/,''))+'</h'+n+'>');i++;continue}
+const delim=delimiterFor(lines,i);if(delim){const rows=[],cols=splitDelimited(lines[i],delim).length;while(i<lines.length&&lines[i].trim()){const row=splitDelimited(lines[i],delim);if(row.length!==cols)break;rows.push(row);i++}const cleaned=rows.filter(r=>!isSeparator(r));if(cleaned.length>=2){const headerLooksLikeData=cleaned[0].some(x=>/^(?:varchar2?\s*\(|decimal|number|integer|int|date|boolean|float|double|char\s*\()/i.test(x)||/^required\s*[-:]\s*(?:yes|no)$/i.test(x));const headers=headerLooksLikeData&&cols===4?['Field','Description','Data Type','Required']:null;const head=headers||cleaned[0];const body=headers?cleaned:cleaned.slice(1);parts.push('<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><thead><tr>'+head.map(x=>'<th style="border:1px solid #bfcbd0;background:#edf2f4;text-align:left;">'+inline(x)+'</th>').join('')+'</tr></thead><tbody>'+body.map(r=>'<tr>'+r.map(x=>'<td style="border:1px solid #bfcbd0;text-align:left;">'+inline(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>');continue}rows.forEach(r=>parts.push('<p>'+inline(r.join(' '+delim+' '))+'</p>'));continue}
+if(/^[-*•]\s+/.test(s)||/^\d+[.)]\s+/.test(s)){const ordered=/^\d+[.)]\s+/.test(s),items=[];while(i<lines.length){const line=lines[i].trim();const match=ordered?line.match(/^\d+[.)]\s+(.*)/):line.match(/^[-*•]\s+(.*)/);if(!match)break;items.push('<li>'+inline(match[1])+'</li>');i++}parts.push('<'+(ordered?'ol':'ul')+'>'+items.join('')+'</'+(ordered?'ol':'ul')+'>');continue}
+if(/^\d+(?:\.\d+)+\s+/.test(s)){parts.push('<h2>'+inline(s)+'</h2>');i++;continue}
+if(s.endsWith(':')&&s.length<90&&!s.includes('|')&&!s.includes(',')){parts.push('<h2>'+inline(s.slice(0,-1))+'</h2>');i++;continue}
+if(i+1<lines.length&&lines[i+1].trim()===''&&s.length<75&&!/[.!?]$/.test(s)&&!s.includes(',')){parts.push('<h2>'+inline(s)+'</h2>');i++;continue}
+const para=[s];i++;while(i<lines.length&&lines[i].trim()&&!/^#{1,6}\s+/.test(lines[i])&&!/^[-*•]\s+/.test(lines[i])&&!/^\d+[.)]\s+/.test(lines[i])&&!codeStart(lines[i].trim())&&!delimiterFor(lines,i)){para.push(lines[i].trim());i++}parts.push('<p>'+inline(para.join(' '))+'</p>')}
+return parts.join('\n')}
+// Convert the same rendered DOM used for preview into Confluence Wiki Markup.
+// This is intentionally plain text: Insert → Markup parses it as Confluence Wiki.
+function wikiEscape(value){return String(value||'').replace(/\r/g,'').replace(/\\/g,'\\\\').replace(/\|/g,'\\|').replace(/\{/g,'\\{').replace(/\}/g,'\\}');}
+function wikiInline(node){
+  if(node.nodeType===3)return wikiEscape(node.nodeValue);
+  if(node.nodeType!==1)return '';
+  const tag=node.tagName.toLowerCase();
+  const content=Array.from(node.childNodes).map(wikiInline).join('');
+  if(tag==='strong'||tag==='b')return '*'+content+'*';
+  if(tag==='em'||tag==='i')return '_'+content+'_';
+  if(tag==='code')return '{{'+content+'}}';
+  if(tag==='br')return '\\';
+  if(tag==='a')return '['+content+'|'+(node.getAttribute('href')||'')+']';
+  return content;
+}
+function wikiTable(table){
+  const rows=Array.from(table.querySelectorAll('tr'));
+  return rows.map((tr,index)=>{
+    const cells=Array.from(tr.children).filter(x=>/^(TD|TH)$/.test(x.tagName));
+    const header=cells.length>0&&(cells.every(c=>c.tagName==='TH')||(index===0&&!!tr.closest('thead')));
+    const delimiter=header?'||':'|';
+    return delimiter+' '+cells.map(c=>wikiInline(c).trim()).join(' '+delimiter+' ')+ ' '+delimiter;
+  }).join('\n');
+}
+function wikiFromPreview(root){
+  const blocks=[];
+  function process(node){
+    if(node.nodeType!==1)return;
+    const tag=node.tagName.toLowerCase();
+    if(/^h[1-6]$/.test(tag)){blocks.push(tag+'. '+wikiInline(node).trim());return;}
+    if(tag==='table'){blocks.push(wikiTable(node));return;}
+    if(tag==='pre'){
+      const content=node.textContent||'';
+      blocks.push('{code}\n'+content.replace(/\r\n?/g,'\n')+'\n{code}');return;
+    }
+    if(tag==='ul'||tag==='ol'){
+      const marker=tag==='ul'?'*':'#';
+      blocks.push(Array.from(node.children).filter(x=>x.tagName==='LI').map(li=>marker+' '+wikiInline(li).trim()).join('\n'));return;
+    }
+    if(tag==='p'){blocks.push(wikiInline(node).trim());return;}
+    Array.from(node.children).forEach(process);
+  }
+  Array.from(root.children).forEach(process);
+  return blocks.filter(Boolean).join('\n\n').trim()+'\n';
+}
+let rendered='',wikiMarkup='';
+$('generate').onclick=()=>{
+  const title=$('pageTitle').value.trim(),raw=$('raw').value.trim();
+  if(!title&&!raw){$('status').textContent='Enter a title or content first.';return;}
+  rendered=build(title,raw);
+  $('preview').innerHTML=rendered;
+  wikiMarkup=wikiFromPreview($('preview'));
+  $('wikiOutput').value=wikiMarkup;
+  $('copy').disabled=false;$('copyTitle').disabled=!title;$('viewMarkup').disabled=false;
+  $('status').textContent='Page generated. Copy Page Title into the Confluence title field, then copy the Wiki Markup for Insert → Markup → Confluence Wiki.';
+};
+$('clear').onclick=()=>{
+  $('pageTitle').value='';$('raw').value='';
+  $('preview').innerHTML='<p class="placeholder">Your formatted Confluence page will appear here.</p>';
+  $('copy').disabled=true;$('copyTitle').disabled=true;$('viewMarkup').disabled=true;
+  $('markupPanel').hidden=true;$('wikiOutput').value='';rendered='';wikiMarkup='';
+  $('status').textContent='Cleared.';
+};
+$('viewMarkup').onclick=()=>{
+  $('markupPanel').hidden=!$('markupPanel').hidden;
+  $('viewMarkup').textContent=$('markupPanel').hidden?'View Markup':'Hide Markup';
+};
+$('copy').onclick=async()=>{
+  if(!wikiMarkup)return;
+  let success=false;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    try{await navigator.clipboard.writeText(wikiMarkup);success=true;}catch(e){}
+  }
+  if(!success){
+    const area=$('wikiOutput');$('markupPanel').hidden=false;
+    area.focus();area.select();
+    try{success=document.execCommand('copy');}catch(e){}
+  }
+  $('status').textContent=success
+    ?'Confluence Wiki Markup copied. In Confluence choose Insert → Markup → Confluence Wiki, then paste and Insert.'
+    :'Clipboard access was blocked. The Wiki Markup is selected below; press Ctrl+C, then paste into Insert → Markup.';
+};
+$('copyTitle').onclick=async()=>{
+  const title=$('pageTitle').value.trim();
+  if(!title){$('status').textContent='Enter a page title first.';return;}
+  let success=false;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    try{await navigator.clipboard.writeText(title);success=true;}catch(e){}
+  }
+  if(!success){
+    const input=$('pageTitle');input.focus();input.select();
+    try{success=document.execCommand('copy');}catch(e){}
+  }
+  $('status').textContent=success
+    ?'Page title copied. Paste it into the Confluence Page Title field.'
+    :'Clipboard access was blocked. The title is selected; press Ctrl+C and paste it into the Confluence Page Title field.';
+};
+</script></body></html>

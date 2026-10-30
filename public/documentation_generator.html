@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TGW · Documentation Generator</title>
+<style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-bottom: 1px solid #dce3eb;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,.04);
+        }
+        .site-nav .brand { color: #243b53; font-weight: 700; }
+        .site-nav .nav-links { display: flex; gap: 12px; flex-wrap: wrap; }
+        .site-nav .nav-links a {
+            color: #0078d4;
+            padding: 9px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .site-nav .nav-links a:hover, .site-nav .nav-links a:focus-visible {
+            background: #eaf4ff;
+        }
+        .site-nav .nav-links a[aria-current="page"] {
+            background: #0078d4;
+            color: white;
+        }
+        body { padding: 100px 16px 30px; }
+        .container {
+            background: white;
+            width: 700px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,.12);
+        }
+
+        h1 {
+            color: #0078d4;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .upload-box {
+            border: 2px dashed #0078d4;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            background: #fafcff;
+            margin-bottom: 25px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #0078d4;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #106ebe;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .success {
+            background: #dff6dd;
+            color: #107c10;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .error {
+            background: #fde7e9;
+            color: #a80000;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        a {
+            color: #0078d4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+
+        #loading {
+            display: none;
+            color: #0078d4;
+            margin-top: 15px;
+        }
+    
+/* Shared left navigation */
+body { display:block !important; min-height:100vh; margin:0; }
+.app-sidebar { position:fixed; inset:0 auto 0 0; width:246px; z-index:50; background:#14263f; color:#fff; display:flex; flex-direction:column; box-shadow:2px 0 12px rgba(0,0,0,.08); font-family:"Segoe UI",Arial,sans-serif; }
+.app-brand { padding:28px 20px 24px; border-bottom:1px solid rgba(255,255,255,.14); display:flex; flex-direction:column; gap:5px; font-size:18px; }
+.app-brand-small { color:#8fc8ff; font-size:12px; font-weight:700; letter-spacing:.13em; }
+.app-links { padding:18px 10px; display:flex; flex-direction:column; gap:7px; }
+.app-links a { display:block; color:#e0e9f5; text-decoration:none; padding:13px 14px; border-radius:8px; font-size:14px; line-height:1.45; font-weight:600; }
+.app-links a:hover, .app-links a:focus-visible { background:#2d4563; color:white; text-decoration:none; }
+.app-links a[aria-current="page"] { background:#0078d4; color:#fff; }
+.app-sidebar-foot { margin-top:auto; padding:16px 22px; font-size:12px; color:#a4b7cc; }
+.app-main { margin-left:246px; min-height:100vh; padding:28px 22px; }
+.app-main .wrap { margin:0 auto; }
+.app-main .container { margin:24px auto; max-width:700px; width:100%; }
+@media (max-width:700px) { .app-sidebar {position:relative; width:100%; box-shadow:none;} .app-brand {padding:16px;} .app-links {flex-direction:row; flex-wrap:wrap; padding:10px;} .app-links a {font-size:13px;} .app-sidebar-foot {display:none;} .app-main {margin-left:0; padding:14px;} .app-main .container {padding:24px;} }
+
+/* TGW industrial interface — visual-only V9 theme */
+:root{font-family:"Segoe UI",Arial,sans-serif!important;background:#eef1f3!important;color:#1d2830!important}
+body{background:#eef1f3!important;color:#1d2830!important}
+.app-sidebar{width:266px!important;background:#171b1e!important;box-shadow:4px 0 25px rgba(20,25,29,.10)!important;border-right:1px solid #30373b}
+.app-brand{padding:26px 22px 24px!important;gap:12px!important;border-color:#32383b!important}
+.brand-logo-wrap{background:#fff;border-radius:9px;padding:10px 12px;display:flex;align-items:center;justify-content:center}
+.brand-logo{width:100%;max-width:190px;height:auto;display:block}
+.brand-caption{color:#b4c0c4;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:none;text-align:center;letter-spacing:.02em}
+.app-links{padding:24px 12px!important;gap:8px!important}
+.app-links a{display:flex!important;align-items:center;gap:12px;border:1px solid transparent;border-radius:9px!important;color:#c5d0d4!important;padding:14px 12px!important;font-size:13px!important;font-weight:600!important}
+.app-links a:before{content:'◇';font-size:21px;color:#9cabaf;line-height:1}
+.app-links a.docs-link:before{content:'▤';font-size:19px}
+.app-links a:hover{background:#30383b!important;color:white!important}
+.app-links a[aria-current="page"]{background:#343c39!important;border-color:#55652c!important;color:#f5f8e9!important;box-shadow:inset 3px 0 #b7d329}
+.app-links a[aria-current="page"]:before{color:#c5df3e}
+.app-sidebar-foot{border-top:1px solid #343b3e;color:#aab7bb!important;padding:22px!important}
+.app-main{margin-left:266px!important;padding:0 32px 45px!important;min-width:0;background:linear-gradient(180deg,#e7ebee 0,#f3f5f6 310px)!important}
+.app-main:before{content:'';display:block;height:9px;margin:0 -32px 30px;background:linear-gradient(90deg,#a9cf25 0%,#d1db26 35%,#f9b51a 72%,#eb282b 100%)}
+.app-main .wrap{max-width:1460px!important}
+.app-main header{position:relative;overflow:hidden;border-radius:14px;padding:30px 34px!important;margin-bottom:23px!important;background:linear-gradient(105deg,rgba(22,30,34,.98),rgba(35,49,53,.92)),repeating-linear-gradient(90deg,transparent 0,transparent 45px,rgba(255,255,255,.1) 46px,transparent 47px)!important;box-shadow:0 9px 24px rgba(29,41,46,.10)}
+.app-main header:after{content:'';position:absolute;right:-25px;top:-30px;width:240px;height:180px;border:2px solid rgba(184,211,42,.2);transform:skew(-24deg);box-shadow:-40px 30px 0 -2px rgba(184,211,42,.06),-80px 60px 0 -2px rgba(184,211,42,.05);pointer-events:none}
+.app-main header h1{color:#fff!important;font-size:clamp(25px,2.5vw,35px)!important;letter-spacing:-.025em;margin:12px 0 9px!important}
+.app-main header p{color:#c4cfd1!important;max-width:780px;line-height:1.65!important;margin:0}
+.pill{background:rgba(191,217,49,.15)!important;border:1px solid rgba(197,222,59,.35);color:#d6ec71!important;letter-spacing:.045em}
+.layout{gap:22px!important;align-items:start}
+.panel,.container{background:#fff!important;border:1px solid #dfe5e7!important;border-radius:13px!important;box-shadow:0 5px 22px rgba(28,40,44,.055)!important}
+.panel{padding:26px!important}
+.panel h2{color:#202b30!important;font-size:18px!important;letter-spacing:-.01em;padding-bottom:13px;border-bottom:1px solid #e8edee}
+label{color:#3e4c52!important}
+textarea,input,select{background:#fbfcfc!important;border:1px solid #cbd5d8!important;border-radius:8px!important;color:#1d2a2e!important;outline-color:#a5c72b!important}
+textarea:focus,input:focus,select:focus{border-color:#8da928!important;box-shadow:0 0 0 3px rgba(178,205,45,.16)!important}
+button{background:#b7d333!important;color:#1c2a1c!important;border-radius:8px!important;box-shadow:none!important;font-weight:700!important}
+button:hover:not(:disabled){background:#a7c425!important}
+button.secondary{background:#edf1f2!important;color:#26373b!important}
+button.secondary:hover:not(:disabled){background:#e0e8e8!important}
+button:focus-visible,a:focus-visible{outline:3px solid #d7e77d;outline-offset:3px}
+#analysis{background:#f3f6f5!important;border:1px solid #e2e9e5!important;color:#3a484b}
+.hint,.status{line-height:1.6!important}
+.container{max-width:850px!important;width:100%!important;margin:0 auto!important;padding:38px!important}
+.container h1{color:#202b30!important;font-size:28px!important}
+.container .subtitle{color:#647378!important;line-height:1.6!important}
+.upload-box{background:#f7f9f6!important;border:2px dashed #9fb739!important;border-radius:12px!important}
+.container button{padding:13px 20px!important}
+.footer{color:#7e8b8d!important}
+@media(max-width:1000px){.app-main{padding:0 18px 30px!important}.app-main:before{margin:0 -18px 20px}.panel{padding:19px!important}}
+@media(max-width:700px){.app-sidebar{position:relative!important;width:100%!important}.app-brand{padding:14px 18px!important;flex-direction:row!important;align-items:center}.brand-logo-wrap{width:120px;padding:5px 8px}.brand-caption{font-size:10px}.app-links{padding:8px 12px 14px!important;flex-direction:row!important}.app-links a{flex:1;min-width:135px;padding:10px!important}.app-sidebar-foot{display:none}.app-main{margin-left:0!important}.app-main header{padding:24px!important}.container{padding:23px!important}}
+
+
+/* V10 shared vertical rhythm: consistent top alignment on both tools */
+.app-main { display:block !important; }
+.app-main > header, .app-main > .wrap { margin-top:0 !important; }
+.app-main > .container { margin:0 !important; max-width:1460px !important; width:100% !important; }
+.app-main > header { margin-top:0 !important; margin-bottom:23px !important; }
+.app-main .wrap { width:100% !important; }
+@media (max-width:700px) { .app-main > .container { margin:0 !important; } }
+
+/* V11: one shared top-aligned content grid for both tools */
+.app-main { display:block !important; }
+.app-main > .wrap { width:100% !important; max-width:1460px !important; margin:0 auto !important; padding:0 !important; }
+.app-main .wrap > header { margin:0 0 23px !important; }
+.app-main .wrap > .container { width:100% !important; max-width:850px !important; margin:0 !important; }
+@media(max-width:700px){.app-main > .wrap {margin:0 auto !important;padding:0 !important;}}
+/* V12: remove original standalone upload-page body centering and 100px padding.
+   These styles shifted the entire app down/right, not just the upload card. */
+html { margin:0; padding:0; }
+body { display:block !important; margin:0 !important; padding:0 !important;
+       min-height:100vh; justify-content:initial !important; align-items:initial !important; }
+</style>
+</head>
+<body><aside aria-label="Main navigation" class="app-sidebar"><div class="app-brand"><div class="brand-logo-wrap"><img class="brand-logo" src="tgw-logo.png" alt="TGW Logistics"/></div><span class="brand-caption">It's possible!</span></div><nav class="app-links" aria-label="Tools"><a href="confluence_page_generator.html">Confluence Page Creator</a><a href="openapi_agent_v4.html">Confluence to OpenAPI</a><a href="documentation_generator.html" aria-current="page">Documentation Generator</a></nav><div class="app-sidebar-foot">TGW Host Spec Tools · V20<br/>OpenAPI 3.1 / Redocly</div></aside><div class="app-main"><main class="wrap"><header><span class="pill">DOCUMENTATION WORKFLOW</span><h1>Documentation Generator</h1><p>Upload your OpenAPI YAML specification to generate readable Redocly HTML documentation.</p></header>
+
+<div class="container">
+<h1>TGW Host Spec Tool</h1>
+<p class="subtitle">
+        Upload an OpenAPI 3.x YAML file and generate Redocly HTML documentation.
+    </p>
+<form id="uploadForm">
+<div class="upload-box">
+<input accept=".yaml,.yml" name="yaml" required="" type="file"/>
+<br/>
+<button type="submit">
+                Generate Documentation
+            </button>
+</div>
+</form>
+<div id="loading">
+        Generating documentation...
+    </div>
+<div class="result" id="result"></div>
+<div class="footer">
+        Powered by Redocly + Node.js
+    </div>
+</div>
+
+</main></div><script>
+
+document
+    .getElementById("uploadForm")
+    .addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("result").innerHTML = "";
+
+        try {
+
+            const response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = await response.json();
+
+            document.getElementById("loading").style.display = "none";
+
+            if (result.success) {
+
+                document.getElementById("result").innerHTML = `
+                    <div class="success">
+                        ✅ Documentation generated successfully.<br><br>
+                        <a href="${result.url}" target="_blank">
+                            Open Documentation
+                        </a>
+                    </div>
+                `;
+            }
+            else {
+
+                document.getElementById("result").innerHTML = `
+                    <div class="error">
+                        ❌ ${result.error}
+                    </div>
+                `;
+            }
+
+        } catch (err) {
+
+            document.getElementById("loading").style.display = "none";
+
+            document.getElementById("result").innerHTML = `
+                <div class="error">
+                    ❌ ${err.message}
+                </div>
+            `;
+        }
+
+    });
+
+</script></body>
+</html>
