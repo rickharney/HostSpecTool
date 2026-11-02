@@ -87,28 +87,73 @@ button:focus-visible,a:focus-visible{outline:3px solid #d7e77d;outline-offset:3p
 .app-main header p{color:#c4cfd1!important;margin:0}
 .app-links a[href="confluence_page_generator.html"]{background:#343c39!important;border-color:#55652c!important;color:#f5f8e9!important;box-shadow:inset 3px 0 #b7d329}
 @media(max-width:700px){.app-brand{flex-direction:column!important}.brand-caption{text-align:center!important}}
-</style></head><body><aside aria-label="Main navigation" class="app-sidebar"><div class="app-brand"><div class="brand-logo-wrap"><img class="brand-logo" src="tgw-logo.png" alt="TGW Logistics"></div><span class="brand-caption">It's possible!</span></div><nav class="app-links" aria-label="Tools"><a href="confluence_page_generator.html" aria-current="page">Confluence Page Creator</a><a href="openapi_agent_v4.html">Confluence to OpenAPI</a><a href="documentation_generator.html">Documentation Generator</a></nav><div class="app-sidebar-foot">TGW Host Spec Tools · V20<br>OpenAPI 3.1 / Redocly</div></aside><div class="app-main"><main class="wrap"><header><span class="pill">Browser-only • Confluence Wiki Markup</span><h1>Confluence Page Creator</h1><p>Paste raw notes, field mappings, JSON, or tabular data. Generate Confluence Wiki Markup for Insert → Markup in your Confluence editor.</p></header><div class="layout"><section class="panel"><h2>1. Enter page information</h2><label for="pageTitle">Page Title</label><input id="pageTitle" placeholder="Enter the Confluence page title"><label for="raw">Page Content</label><textarea id="raw" spellcheck="false" placeholder="Paste headings, notes, field mappings, CSV/TSV tables, JSON, or numbered instructions here..."></textarea><div class="actions"><button id="generate">Generate Page</button><button class="secondary" id="clear">Clear</button></div><p class="hint">Automatic detection: headings, paragraphs, bullets, numbered steps, JSON/XML code, and CSV, tab- or pipe-delimited tables. Ambiguous data may need review.</p></section><section class="panel"><h2>2. Formatted Preview</h2><div id="preview" class="preview"><p class="placeholder">Your formatted Confluence page will appear here.</p></div><div class="actions"><button class="secondary" id="copyTitle" disabled>Copy Page Title</button><button id="copy" disabled>Copy Confluence Markup</button><button class="secondary" id="viewMarkup" disabled>View Markup</button></div><p class="status" id="status" role="status">Generate a page to enable copying.</p><p class="hint">In Confluence choose Insert → Markup → Confluence Wiki, paste the copied text, then click Insert. Use Copy Page Title for the Confluence title field; only the page body is included in Wiki Markup.</p><div id="markupPanel" hidden><label for="wikiOutput">Generated Confluence Wiki Markup</label><textarea id="wikiOutput" readonly spellcheck="false" style="min-height:280px" aria-label="Generated Confluence Wiki Markup"></textarea></div></section></div></main></div><script>
+</style></head><body><aside aria-label="Main navigation" class="app-sidebar"><div class="app-brand"><div class="brand-logo-wrap"><img class="brand-logo" src="tgw-logo.png" alt="TGW Logistics"></div><span class="brand-caption">It's possible!</span></div><nav class="app-links" aria-label="Tools"><a href="confluence_page_generator.html" aria-current="page">Confluence Page Creator</a><a href="openapi_agent_v4.html">Confluence to OpenAPI</a><a href="documentation_generator.html">Documentation Generator</a></nav><div class="app-sidebar-foot">TGW Host Spec Tools · V26<br>OpenAPI 3.1 / Redocly</div></aside><div class="app-main"><main class="wrap"><header><span class="pill">Browser-only • Confluence Wiki Markup</span><h1>Confluence Page Creator</h1><p>Paste raw notes, field mappings, JSON, or tabular data. Generate Confluence Wiki Markup for Insert → Markup in your Confluence editor.</p></header><div class="layout"><section class="panel"><h2>1. Enter page information</h2><label for="pageTitle">Page Title</label><input id="pageTitle" placeholder="Enter the Confluence page title"><label for="raw">Page Content</label><textarea id="raw" spellcheck="false" placeholder="Paste headings, notes, field mappings, CSV/TSV tables, JSON, or numbered instructions here..."></textarea><div class="actions"><button id="generate">Generate Page</button><button class="secondary" id="clear">Clear</button></div><p class="hint">Automatic detection: headings, paragraphs, bullets, numbered steps, JSON/XML code, and CSV, tab- or pipe-delimited tables. Ambiguous data may need review.</p></section><section class="panel"><h2>2. Formatted Preview</h2><div id="preview" class="preview"><p class="placeholder">Your formatted Confluence page will appear here.</p></div><div class="actions"><button class="secondary" id="copyTitle" disabled>Copy Page Title</button><button id="copy" disabled>Copy Confluence Markup</button><button class="secondary" id="viewMarkup" disabled>View Markup</button></div><p class="status" id="status" role="status">Generate a page to enable copying.</p><p class="hint">In Confluence choose Insert → Markup → Confluence Wiki, paste the copied text, then click Insert. Use Copy Page Title for the Confluence title field; only the page body is included in Wiki Markup.</p><div id="markupPanel" hidden><label for="wikiOutput">Generated Confluence Wiki Markup</label><textarea id="wikiOutput" readonly spellcheck="false" style="min-height:280px" aria-label="Generated Confluence Wiki Markup"></textarea></div></section></div></main></div><script>
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 function inline(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
 function splitDelimited(line,delimiter){if(delimiter==='\t')return line.split('\t').map(x=>x.trim());if(delimiter==='|')return line.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(x=>x.trim());const out=[];let cell='',quoted=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(quoted&&line[i+1]==='"'){cell+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){out.push(cell.trim());cell=''}else cell+=c}out.push(cell.trim());return out}
-function delimiterFor(lines,i){const a=lines[i]||'',b=lines[i+1]||'';for(const d of ['\t','|',',']){if(!a.includes(d)||!b.includes(d))continue;const aa=splitDelimited(a,d),bb=splitDelimited(b,d);if(aa.length>=2&&aa.length===bb.length&&aa.every(x=>x.length>0)&&bb.some(x=>x.length>0))return d}return null}
+function isWordListRow(line){const first=String(line||'').split('\t',1)[0].trim();return /^(?:\d+(?:\.\d+)*|[a-z])[.)]$/i.test(first)}
+function delimiterFor(lines,i){const a=lines[i]||'',b=lines[i+1]||'';for(const d of ['\t','|']){if(!a.includes(d)||!b.includes(d))continue;if(d==='\t'&&(isWordListRow(a)||isWordListRow(b)))continue;const aa=splitDelimited(a,d),bb=splitDelimited(b,d);if(aa.length>=2&&aa.length===bb.length&&aa.every(x=>x.length>0)&&bb.some(x=>x.length>0))return d}if(commaTableCandidate(lines,i))return ',';return null}
+function commaTableCandidate(lines,i){
+ const first=lines[i]||'';if(!first.includes(','))return false;
+ // A comma is only a table delimiter when a run of at least three nonblank lines
+ // has the same 2+ columns and looks like tabular data (not sentence prose).
+ const rows=[];for(let j=i;j<lines.length&&rows.length<8&&lines[j].trim();j++){if(!lines[j].includes(','))break;const r=splitDelimited(lines[j],',');if(r.length<2||r.some(x=>!x))break;rows.push(r)}
+ if(rows.length<3)return false;const n=rows[0].length;if(!rows.every(r=>r.length===n))return false;
+ const header=rows[0].map(x=>x.toLowerCase());const headerSignal=header.some(x=>/^(field|name|key|description|type|data type|required|value|id|sku|column|parameter|property)$/.test(x));
+ const dataCell=/^(?:[\w.-]+\s*\([^)]*\)|yes|no|true|false|required[-_ ]?(?:yes|no)|\d+(?:\.\d+)?|\d{4}-\d{2}-\d{2}|[A-Z]{2,}\d{2,})$/i;
+ const structuredRows=rows.slice(1).filter(r=>r.some(x=>dataCell.test(x.trim()))).length;
+ return headerSignal||structuredRows>=2;
+}
 function isSeparator(row){return row.every(x=>/^:?-{2,}:?$/.test(x.trim()))}
 function codeStart(s){return /^```/.test(s)||/^~~~/.test(s)}
 function looksJSON(s){return /^[\[{]/.test(s.trim())}
 function looksXML(s){return /^<\?xml\b|^<[A-Za-z][\w:.-]*(?:\s|>)/.test(s.trim())}
-function build(title,raw){const lines=raw.replace(/\r\n?/g,'\n').split('\n');const parts=[];let i=0;const special=s=>!s.trim()||codeStart(s.trim())||/^#{1,6}\s/.test(s)||/^\d+(?:\.\d+)*[.)]\s+/.test(s)||/^[-*•]\s+/.test(s)||delimiterFor(lines,lines.indexOf(s))!==null;
-while(i<lines.length){let s=lines[i].trim();if(!s){i++;continue}
-if(codeStart(s)){const fence=s.slice(0,3);i++;const code=[];while(i<lines.length&&!lines[i].trim().startsWith(fence))code.push(lines[i++]);if(i<lines.length)i++;parts.push('<pre><code>'+esc(code.join('\n'))+'</code></pre>');continue}
-if(looksJSON(s)||looksXML(s)){let text=s,depth=0,quoted=false,escape=false;const isJson=looksJSON(s);if(isJson){let complete=false;let j=i;for(;j<lines.length;j++){const line=lines[j];if(j>i)text+='\n'+line;for(const c of line){if(quoted){if(escape)escape=false;else if(c==='\\')escape=true;else if(c==='"')quoted=false}else if(c==='"')quoted=true;else if(c==='{'||c==='[')depth++;else if(c==='}'||c===']')depth--}if(depth===0){complete=true;break}}if(complete){try{JSON.parse(text);parts.push('<pre><code>'+esc(JSON.stringify(JSON.parse(text),null,2))+'</code></pre>');i=j+1;continue}catch(e){}}}else{const xml=[];while(i<lines.length&&lines[i].trim()){xml.push(lines[i++])}parts.push('<pre><code>'+esc(xml.join('\n'))+'</code></pre>');continue}}
-if(/^#{1,6}\s+/.test(s)){const n=Math.min(3,s.match(/^#+/)[0].length+1);parts.push('<h'+n+'>'+inline(s.replace(/^#+\s+/,''))+'</h'+n+'>');i++;continue}
-const delim=delimiterFor(lines,i);if(delim){const rows=[],cols=splitDelimited(lines[i],delim).length;while(i<lines.length&&lines[i].trim()){const row=splitDelimited(lines[i],delim);if(row.length!==cols)break;rows.push(row);i++}const cleaned=rows.filter(r=>!isSeparator(r));if(cleaned.length>=2){const headerLooksLikeData=cleaned[0].some(x=>/^(?:varchar2?\s*\(|decimal|number|integer|int|date|boolean|float|double|char\s*\()/i.test(x)||/^required\s*[-:]\s*(?:yes|no)$/i.test(x));const headers=headerLooksLikeData&&cols===4?['Field','Description','Data Type','Required']:null;const head=headers||cleaned[0];const body=headers?cleaned:cleaned.slice(1);parts.push('<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><thead><tr>'+head.map(x=>'<th style="border:1px solid #bfcbd0;background:#edf2f4;text-align:left;">'+inline(x)+'</th>').join('')+'</tr></thead><tbody>'+body.map(r=>'<tr>'+r.map(x=>'<td style="border:1px solid #bfcbd0;text-align:left;">'+inline(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>');continue}rows.forEach(r=>parts.push('<p>'+inline(r.join(' '+delim+' '))+'</p>'));continue}
-if(/^[-*•]\s+/.test(s)||/^\d+[.)]\s+/.test(s)){const ordered=/^\d+[.)]\s+/.test(s),items=[];while(i<lines.length){const line=lines[i].trim();const match=ordered?line.match(/^\d+[.)]\s+(.*)/):line.match(/^[-*•]\s+(.*)/);if(!match)break;items.push('<li>'+inline(match[1])+'</li>');i++}parts.push('<'+(ordered?'ol':'ul')+'>'+items.join('')+'</'+(ordered?'ol':'ul')+'>');continue}
-if(/^\d+(?:\.\d+)+\s+/.test(s)){parts.push('<h2>'+inline(s)+'</h2>');i++;continue}
-if(s.endsWith(':')&&s.length<90&&!s.includes('|')&&!s.includes(',')){parts.push('<h2>'+inline(s.slice(0,-1))+'</h2>');i++;continue}
-if(i+1<lines.length&&lines[i+1].trim()===''&&s.length<75&&!/[.!?]$/.test(s)&&!s.includes(',')){parts.push('<h2>'+inline(s)+'</h2>');i++;continue}
-const para=[s];i++;while(i<lines.length&&lines[i].trim()&&!/^#{1,6}\s+/.test(lines[i])&&!/^[-*•]\s+/.test(lines[i])&&!/^\d+[.)]\s+/.test(lines[i])&&!codeStart(lines[i].trim())&&!delimiterFor(lines,i)){para.push(lines[i].trim());i++}parts.push('<p>'+inline(para.join(' '))+'</p>')}
-return parts.join('\n')}
+function build(title,raw){
+ const lines=raw.replace(/\r\n?/g,'\n').split('\n'),parts=[];let i=0;
+ function parseListLine(line){
+  const normalized=String(line||'').replace(/\t/g,'    ');
+  const m=normalized.match(/^(\s*)(\d+(?:\.\d+)*|[a-z])[.)]\s+(.*)$/i);
+  if(!m)return null;
+  return {indent:m[1].length,marker:m[2],text:m[3],alpha:/^[a-z]$/i.test(m[2]),explicitDepth:/^\d/.test(m[2])?m[2].split('.').length-1:0};
+ }
+ function numberedBlock(at){
+  const items=[];let j=at;
+  while(j<lines.length){
+   if(!lines[j].trim()){let k=j;while(k<lines.length&&!lines[k].trim())k++;if(k>=lines.length||!parseListLine(lines[k]))break;j=k;}
+   const item=parseListLine(lines[j]);if(!item)break;
+   // Word commonly places the list label and its text in separate tab-delimited clipboard cells.
+   if(lines[j].includes('\t')){const cells=lines[j].split('\t');if(/^(?:\d+(?:\.\d+)*|[a-z])[.)]$/i.test((cells[0]||'').trim())){item.text=cells.slice(1).join(' ').trim();item.indent=(cells[0].match(/^\s*/)||[''])[0].length;}}
+   items.push(item);j++;
+  }
+  if(!items.length)return null;
+  const roots=[];const stack=[roots];let baseIndent=items[0].indent;
+  for(const item of items){
+   let depth=item.alpha?(stack.length>1?1:0):Math.max(item.explicitDepth,Math.round(Math.max(0,item.indent-baseIndent)/4));
+   while(stack.length>depth+1)stack.pop();
+   while(stack.length<depth+1){const parent=stack[stack.length-1];if(!parent.length)break;const last=parent[parent.length-1];last.children=last.children||[];stack.push(last.children);}
+   const target=stack[depth]||roots;
+   const node={text:item.text,children:[],listType:item.alpha?'a':'1'};target.push(node);stack.length=depth+1;stack.push(node.children);
+  }
+  function render(nodes){if(!nodes.length)return '';const type=nodes[0].listType;return '<ol'+(type==='a'?' type=\"a\"':'')+'>'+nodes.map(n=>'<li>'+inline(n.text)+(n.children.length?render(n.children):'')+'</li>').join('')+'</ol>';}
+  return {html:render(roots),end:j};
+ }
+ while(i<lines.length){let s=lines[i].trim();if(!s){i++;continue}
+ if(codeStart(s)){const fence=s.slice(0,3);i++;const code=[];while(i<lines.length&&!lines[i].trim().startsWith(fence))code.push(lines[i++]);if(i<lines.length)i++;parts.push('<pre><code>'+esc(code.join('\n'))+'</code></pre>');continue}
+ if(looksJSON(s)||looksXML(s)){let text=s,depth=0,quoted=false,escape=false;const isJson=looksJSON(s);if(isJson){let complete=false,j=i;for(;j<lines.length;j++){const line=lines[j];if(j>i)text+='\n'+line;for(const c of line){if(quoted){if(escape)escape=false;else if(c==='\\')escape=true;else if(c==='"')quoted=false}else if(c==='"')quoted=true;else if(c==='{'||c==='[')depth++;else if(c==='}'||c===']')depth--}if(depth===0){complete=true;break}}if(complete){try{JSON.parse(text);parts.push('<pre><code>'+esc(text)+'</code></pre>');i=j+1;continue}catch(e){}}}else{const xml=[];while(i<lines.length&&lines[i].trim())xml.push(lines[i++]);parts.push('<pre><code>'+esc(xml.join('\n'))+'</code></pre>');continue}}
+ if(/^#{1,6}\s+/.test(s)){const n=Math.min(3,s.match(/^#+/)[0].length+1);parts.push('<h'+n+'>'+inline(s.replace(/^#+\s+/,''))+'</h'+n+'>');i++;continue}
+ if(/^\*\*Question\s+\d+\s*:/i.test(s)&&s.endsWith('**')){parts.push('<h2>'+inline(s.slice(2,-2))+'</h2>');i++;continue}
+ if(/^Question\s+\d+\s*:/i.test(s)){parts.push('<h2>'+inline(s)+'</h2>');i++;continue}
+ const delim=delimiterFor(lines,i);if(delim){const rows=[],cols=splitDelimited(lines[i],delim).length;while(i<lines.length&&lines[i].trim()){const row=splitDelimited(lines[i],delim);if(row.length!==cols)break;rows.push(row);i++}const cleaned=rows.filter(r=>!isSeparator(r));if(cleaned.length>=2){const headerLooksLikeData=cleaned[0].some(x=>/^(?:varchar2?\s*\(|decimal|number|integer|int|date|boolean|float|double|char\s*\()/i.test(x)||/^required\s*[-:]\s*(?:yes|no)$/i.test(x));const headers=headerLooksLikeData&&cols===4?['Field','Description','Data Type','Required']:null;const head=headers||cleaned[0],body=headers?cleaned:cleaned.slice(1);parts.push('<table border="1" cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;"><thead><tr>'+head.map(x=>'<th style="border:1px solid #bfcbd0;background:#edf2f4;text-align:left;">'+inline(x)+'</th>').join('')+'</tr></thead><tbody>'+body.map(r=>'<tr>'+r.map(x=>'<td style="border:1px solid #bfcbd0;text-align:left;">'+inline(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>');continue}}
+ const nb=numberedBlock(i);if(nb){parts.push(nb.html);i=nb.end;continue}
+ if(/^[-*•]\s+/.test(s)){const items=[];while(i<lines.length&&/^\s*[-*•]\s+/.test(lines[i])){items.push('<li>'+inline(lines[i].trim().replace(/^[-*•]\s+/,''))+'</li>');i++}parts.push('<ul>'+items.join('')+'</ul>');continue}
+ if(/^\d+(?:\.\d+)+[.)]?\s+/.test(s)){parts.push('<h3>'+inline(s)+'</h3>');i++;continue}
+ if(s.endsWith(':')&&s.length<90&&!s.includes('|')){parts.push('<h2>'+inline(s.slice(0,-1))+'</h2>');i++;continue}
+ if(i+1<lines.length&&lines[i+1].trim()===''&&s.length<75&&!/[.!?]$/.test(s)){parts.push('<h2>'+inline(s)+'</h2>');i++;continue}
+ const para=[s];i++;while(i<lines.length&&lines[i].trim()&&!/^#{1,6}\s+/.test(lines[i])&&!/^\*\*Question\s+\d+\s*:/i.test(lines[i].trim())&&!/^\s*\d+[.)]\s+/.test(lines[i])&&!/^[-*•]\s+/.test(lines[i])&&!codeStart(lines[i].trim())&&!delimiterFor(lines,i)){para.push(lines[i].trim());i++}parts.push('<p>'+inline(para.join(' '))+'</p>')
+ }
+ return parts.join('\n')
+}
 // Convert the same rendered DOM used for preview into Confluence Wiki Markup.
 // This is intentionally plain text: Insert → Markup parses it as Confluence Wiki.
 function wikiEscape(value){return String(value||'').replace(/\r/g,'').replace(/\\/g,'\\\\').replace(/\|/g,'\\|').replace(/\{/g,'\\{').replace(/\}/g,'\\}');}
@@ -145,8 +190,8 @@ function wikiFromPreview(root){
       blocks.push('{code}\n'+content.replace(/\r\n?/g,'\n')+'\n{code}');return;
     }
     if(tag==='ul'||tag==='ol'){
-      const marker=tag==='ul'?'*':'#';
-      blocks.push(Array.from(node.children).filter(x=>x.tagName==='LI').map(li=>marker+' '+wikiInline(li).trim()).join('\n'));return;
+      function listLines(list,depth){const marker=list.tagName.toLowerCase()==='ul'?'*':'#';const out=[];Array.from(list.children).filter(x=>x.tagName==='LI').forEach(li=>{let text='';Array.from(li.childNodes).forEach(child=>{if(child.nodeType===1&&/^(UL|OL)$/.test(child.tagName))return;text+=wikiInline(child)});out.push(marker.repeat(depth)+' '+text.trim());Array.from(li.children).filter(x=>/^(UL|OL)$/.test(x.tagName)).forEach(sub=>out.push(...listLines(sub,depth+1)));});return out}
+      blocks.push(listLines(node,1).join('\n'));return;
     }
     if(tag==='p'){blocks.push(wikiInline(node).trim());return;}
     Array.from(node.children).forEach(process);
